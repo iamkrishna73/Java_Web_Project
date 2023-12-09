@@ -28,7 +28,7 @@ public class RegistrationServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.getWriter().append("Served at: ").append(request.getContextPath());
+        
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -37,6 +37,8 @@ public class RegistrationServlet extends HttpServlet {
         String lastName = request.getParameter("lastName");
         String email = request.getParameter("email");
         String password = request.getParameter("password");
+        String address = request.getParameter("Address"); // New field
+        
 
         try {
             // Load the JDBC driver
@@ -45,12 +47,13 @@ public class RegistrationServlet extends HttpServlet {
             // Establish a connection
             try (Connection connection = DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASSWORD)) {
                 // Create a prepared statement
-                String sql = "INSERT INTO students (first_name, last_name, email, password) VALUES (?, ?, ?, ?)";
+                String sql = "INSERT INTO students (first_name, last_name, email, password, address) VALUES (?, ?, ?, ?, ?)";
                 try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                     preparedStatement.setString(1, firstName);
                     preparedStatement.setString(2, lastName);
                     preparedStatement.setString(3, email);
                     preparedStatement.setString(4, password);
+                    preparedStatement.setString(5, address);
 
                     // Execute the update
                     preparedStatement.executeUpdate();
@@ -68,7 +71,6 @@ public class RegistrationServlet extends HttpServlet {
         request.setAttribute("firstName", firstName);
         request.setAttribute("lastName", lastName);
         request.setAttribute("email", email);
-        request.setAttribute("password", password);
         request.getRequestDispatcher("registration-success.jsp").forward(request, response);
     }
 }
