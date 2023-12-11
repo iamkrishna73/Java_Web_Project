@@ -28,7 +28,9 @@ public class RegistrationServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-    	request.getRequestDispatcher("index.jsp").forward(request, response);
+    	
+    	response.sendRedirect("index.jsp");
+    	//request.getRequestDispatcher("index.jsp").forward(request, response);
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -66,6 +68,8 @@ public class RegistrationServlet extends HttpServlet {
             e.printStackTrace();
             // Log or handle the exception appropriately
         }
+        
+        response.sendRedirect(address);
 
         // Set the student object as an attribute and forward to a JSP page
         request.setAttribute("firstName", firstName);
